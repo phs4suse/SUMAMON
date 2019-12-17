@@ -1,0 +1,45 @@
+# Sample config for Prometheus.
+global:
+  scrape_interval: 5s # By default, scrape targets every 15 seconds.
+  evaluation_interval: 5s
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - localhost:9093
+rule_files:
+  - /etc/prometheus/alert-rules.yml
+
+# Scrape configurations
+scrape_configs:
+  # ---------------------------
+  # Monitoring self-monitoring
+  # ---------------------------
+  # - job_name: 'monitoring-server'
+  #  static_configs:
+  #    - targets:
+  #      - '%mon-host%:9100' # Local node exporter
+
+  # --------------------
+  # SUSE Manager server
+  # --------------------
+  - job_name: 'suma-server'
+    static_configs:
+      - targets:
+        - FQDN_of_SUMA:9100
+        - FQDN_of_SUMA:9187
+        - FQDN_of_SUMA:5556
+        - FQDN_of_SUMA:5557
+        - FQDN_of_SUMA:9800
+      - targets:
+        - FQDN_of_SUMA:80
+        labels:
+          __metrics_path__: /rhn/metrics
+
+  - job_name: 'suma-clients'
+    uyuni_sd_configs:
+      - host: "FQDN_of_SUMA"
+        username: "admin"
+        password: '<PASSWORD>'
