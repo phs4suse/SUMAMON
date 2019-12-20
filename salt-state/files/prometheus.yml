@@ -40,6 +40,6 @@ scrape_configs:
 
   - job_name: 'suma-clients'
     uyuni_sd_configs:
-      - host: "FQDN_of_SUMA"
+      - host: "http://FQDN_of_SUMA"
         username: "admin"
-        password: '<PASSWORD>'
+        password: 'PASSWORD'
